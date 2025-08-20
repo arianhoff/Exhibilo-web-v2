@@ -40,12 +40,42 @@ export const Testimonials = () => {
   }, [testimonials.length]);
 
   const goToPrevious = () => {
-    setCurrentIndex(currentIndex === 0 ? data.length - 1 : currentIndex - 1);
+    setCurrentIndex(currentIndex === 0 ? testimonials.length - 1 : currentIndex - 1);
   };
 
   const goToNext = () => {
-    setCurrentIndex(currentIndex === data.length - 1 ? 0 : currentIndex + 1);
+    setCurrentIndex(currentIndex === testimonials.length - 1 ? 0 : currentIndex + 1);
   };
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-[#F7F7F7]">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#111111] mb-4">
+              Lo que dicen nuestros clientes
+            </h2>
+            <Loader2 className="w-8 h-8 animate-spin mx-auto text-[#FFB800]" />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error || testimonials.length === 0) {
+    return (
+      <section className="py-20 bg-[#F7F7F7]">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#111111] mb-4">
+              Lo que dicen nuestros clientes
+            </h2>
+            <p className="text-[#555555]">{error || 'No hay testimoniales disponibles'}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 bg-[#F7F7F7]">
