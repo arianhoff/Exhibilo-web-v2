@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
-import { ExternalLink, Filter } from 'lucide-react';
+import { ExternalLink, Filter, Loader2 } from 'lucide-react';
+import { api } from '../api';
 
 export const ProjectsGrid = ({ data }) => {
   const [activeFilter, setActiveFilter] = useState('Todos');
