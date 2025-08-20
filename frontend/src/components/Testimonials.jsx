@@ -168,7 +168,7 @@ export const Testimonials = () => {
 
         {/* Additional testimonials preview */}
         <div className="grid md:grid-cols-3 gap-6 mt-16 max-w-6xl mx-auto">
-          {data.map((testimonial, index) => (
+          {testimonials.map((testimonial, index) => (
             <div
               key={index}
               className={`bg-white p-6 rounded-xl shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
