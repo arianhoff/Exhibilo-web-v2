@@ -33,25 +33,47 @@ export const ContactForm = ({ data }) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    try {
+      // Validate required fields
+      if (!formData.name || !formData.company || !formData.email || !formData.industry || !formData.message) {
+        toast({
+          title: "Error de validación",
+          description: "Por favor completa todos los campos obligatorios.",
+          variant: "destructive"
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
-    toast({
-      title: "Mensaje enviado",
-      description: "Nos pondremos en contacto contigo pronto.",
-    });
+      // Submit to API
+      const response = await api.submitContact(formData);
 
-    // Reset form
-    setFormData({
-      name: '',
-      company: '',
-      email: '',
-      phone: '',
-      industry: '',
-      message: ''
-    });
+      if (response.success) {
+        toast({
+          title: "¡Mensaje enviado!",
+          description: response.message,
+        });
 
-    setIsSubmitting(false);
+        // Reset form
+        setFormData({
+          name: '',
+          company: '',
+          email: '',
+          phone: '',
+          industry: '',
+          message: ''
+        });
+      }
+    } catch (error) {
+      console.error('Contact form submission error:', error);
+      toast({
+        title: "Error al enviar",
+        description: "Hubo un problema al enviar tu mensaje. Por favor intenta nuevamente.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
