@@ -1,6 +1,7 @@
-import React from 'react';
-import { Palette, Factory, Truck, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Palette, Factory, Truck, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from './ui/button';
+import { api } from '../api';
 
 const iconMap = {
   Palette: Palette,
@@ -8,7 +9,58 @@ const iconMap = {
   Truck: Truck,
 };
 
-export const Services = ({ data }) => {
+export const Services = () => {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadServices = async () => {
+      try {
+        setLoading(true);
+        const response = await api.getServices();
+        setServices(response.services || []);
+        setError(null);
+      } catch (err) {
+        console.error('Error loading services:', err);
+        setError('Error al cargar los servicios');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadServices();
+  }, []);
+
+  if (loading) {
+    return (
+      <section id="servicios" className="py-20 bg-[#F7F7F7]">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#111111] mb-4">
+              Nuestros Servicios
+            </h2>
+            <Loader2 className="w-8 h-8 animate-spin mx-auto text-[#FFB800]" />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="servicios" className="py-20 bg-[#F7F7F7]">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#111111] mb-4">
+              Nuestros Servicios
+            </h2>
+            <p className="text-red-500">{error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
   return (
     <section id="servicios" className="py-20 bg-[#F7F7F7]">
       <div className="container mx-auto px-4">
