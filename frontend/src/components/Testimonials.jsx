@@ -1,19 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { Quote, ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import { Quote, ChevronLeft, ChevronRight, Star, Loader2 } from 'lucide-react';
 import { Button } from './ui/button';
+import { api } from '../api';
 
-export const Testimonials = ({ data }) => {
+export const Testimonials = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => 
-        prevIndex === data.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 5000);
+    const loadTestimonials = async () => {
+      try {
+        setLoading(true);
+        const response = await api.getTestimonials();
+        setTestimonials(response.testimonials || []);
+        setError(null);
+      } catch (err) {
+        console.error('Error loading testimonials:', err);
+        setError('Error al cargar los testimoniales');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return () => clearInterval(interval);
-  }, [data.length]);
+    loadTestimonials();
+  }, []);
+
+  useEffect(() => {
+    if (testimonials.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => 
+          prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 5000);
+
+      return () => clearInterval(interval);
+    }
+  }, [testimonials.length]);
 
   const goToPrevious = () => {
     setCurrentIndex(currentIndex === 0 ? data.length - 1 : currentIndex - 1);
