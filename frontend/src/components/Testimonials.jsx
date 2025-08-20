@@ -142,7 +142,7 @@ export const Testimonials = () => {
 
             {/* Dots indicator */}
             <div className="flex space-x-2">
-              {data.map((_, index) => (
+              {testimonials.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
