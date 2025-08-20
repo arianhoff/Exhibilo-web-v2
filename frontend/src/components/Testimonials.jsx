@@ -111,19 +111,19 @@ export const Testimonials = () => {
 
               {/* Testimonial content */}
               <blockquote className="text-xl md:text-2xl text-[#111111] text-center mb-8 leading-relaxed font-medium">
-                "{data[currentIndex].quote}"
+                "{testimonials[currentIndex].quote}"
               </blockquote>
 
               {/* Author info */}
               <div className="text-center">
                 <div className="font-bold text-[#111111] text-lg">
-                  {data[currentIndex].author}
+                  {testimonials[currentIndex].author}
                 </div>
                 <div className="text-[#FFB800] font-medium">
-                  {data[currentIndex].position}
+                  {testimonials[currentIndex].position}
                 </div>
                 <div className="text-[#555555]">
-                  {data[currentIndex].company}
+                  {testimonials[currentIndex].company}
                 </div>
               </div>
             </div>
