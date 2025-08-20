@@ -75,7 +75,7 @@ export const Services = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 mb-12">
-          {data.map((service, index) => {
+          {services.map((service, index) => {
             const IconComponent = iconMap[service.icon];
             
             return (
