@@ -24,10 +24,10 @@ const Home = () => {
       <Header />
       <Hero data={mockData.hero} />
       <ClientLogos data={mockData.clientLogos} />
-      <Services data={mockData.services} />
-      <ProjectsGrid data={mockData.projects} />
+      <Services />
+      <ProjectsGrid />
       <Process data={mockData.process} />
-      <Testimonials data={mockData.testimonials} />
+      <Testimonials />
       <CTASection data={mockData.company} />
       <ContactForm data={mockData} />
       <Footer data={mockData.company} />
