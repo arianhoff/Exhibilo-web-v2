@@ -3,14 +3,61 @@ import { Button } from './ui/button';
 import { ExternalLink, Filter, Loader2 } from 'lucide-react';
 import { api } from '../api';
 
-export const ProjectsGrid = ({ data }) => {
+export const ProjectsGrid = () => {
   const [activeFilter, setActiveFilter] = useState('Todos');
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   
-  const categories = ['Todos', ...new Set(data.map(project => project.category))];
+  const categories = ['Todos', 'Cosmética', 'Bebidas', 'Alimentos', 'Retail'];
+  
+  // Load projects from API
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        setLoading(true);
+        const response = await api.getProjects();
+        setProjects(response.projects || []);
+        setError(null);
+      } catch (err) {
+        console.error('Error loading projects:', err);
+        setError('Error al cargar los proyectos');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProjects();
+  }, []);
   
   const filteredProjects = activeFilter === 'Todos' 
-    ? data 
-    : data.filter(project => project.category === activeFilter);
+    ? projects 
+    : projects.filter(project => project.category === activeFilter);
+
+  if (loading) {
+    return (
+      <section id="proyectos" className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto text-[#FFB800]" />
+            <p className="mt-4 text-[#555555]">Cargando proyectos...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="proyectos" className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <p className="text-red-500">{error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="proyectos" className="py-20 bg-white">
