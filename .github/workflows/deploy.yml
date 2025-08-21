@@ -14,10 +14,10 @@ jobs:
       - name: FTP Deploy (site → public_html)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.FTP_HOST }}     # ej: c2751617.ferozo.com
-          username: ${{ secrets.FTP_USER }}   # ej: c2751617
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           port: 21
-          local-dir: ./site
-          server-dir: /public_html/
+          local-dir: ./site/              # 👈 corregido
+          server-dir: /public_html/       # docroot de tu dominio
           dangerous-clean-slate: true
