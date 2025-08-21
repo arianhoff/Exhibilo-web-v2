@@ -1,0 +1,37 @@
+name: Deploy static /site to DonWeb
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Upload via SFTP (recomendado)
+        if: ${{ secrets.SFTP_HOST != '' }}
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: ${{ secrets.SFTP_HOST }}
+          port: ${{ secrets.SFTP_PORT }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASS }}
+          local_path: './site/*'
+          remote_path: ${{ secrets.SFTP_REMOTE_PATH }}
+          delete_remote_files: true
+          sftp_only: true
+
+      - name: Upload via FTP (fallback)
+        if: ${{ secrets.SFTP_HOST == '' }}
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          port: ${{ secrets.FTP_PORT }}
+          local-dir: ./site
+          server-dir: ${{ secrets.FTP_REMOTE_PATH }}
+          dangerous-clean-slate: true

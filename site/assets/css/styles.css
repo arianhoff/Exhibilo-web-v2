@@ -1,0 +1,13 @@
+/* Utilidades con Tailwind via CDN - acá solo agrego helpers */
+.nav-link{ @apply text-sm text-ex-gray hover:text-ex-black transition; }
+.btn-primary{ @apply inline-flex items-center justify-center px-4 py-2 rounded-xl bg-ex-yellow text-ex-black font-medium shadow hover:opacity-90 transition; }
+.btn-secondary{ @apply inline-flex items-center justify-center px-4 py-2 rounded-xl border border-neutral-300 bg-white text-ex-black hover:bg-neutral-50 transition; }
+.section-title{ @apply font-display text-3xl; }
+.card{ @apply rounded-2xl border p-6 bg-white shadow-sm; }
+.card-title{ @apply font-display text-xl mb-2; }
+.grid-item{ @apply overflow-hidden rounded-xl border bg-white; }
+.grid-item img{ @apply w-full h-56 object-cover; }
+.grid-item figcaption{ @apply p-3 text-sm text-ex-gray; }
+.step{ @apply relative rounded-2xl border p-6 bg-white shadow-sm; }
+.step-num{ @apply inline-flex items-center justify-center w-8 h-8 rounded-full bg-ex-yellow text-ex-black font-bold mr-2; }
+.input{ @apply w-full rounded-xl border px-4 py-3 bg-white text-ex-black placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-ex-yellow; }
