@@ -11,12 +11,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: DNS preflight
+      # (Opcional) Loguear lo que realmente existe en /site del runner
+      - name: List local site contents
         run: |
-          echo "Resolviendo $FTP_HOST ..."
-          nslookup "$FTP_HOST" || (echo "nslookup falló"; exit 1)
-        env:
-          FTP_HOST: ${{ secrets.FTP_HOST }}
+          echo "Listing ./site"
+          ls -la ./site
+          echo "Listing ./site/assets"
+          ls -la ./site/assets || true
+          echo "Listing ./site/assets/css"
+          ls -la ./site/assets/css || true
+          echo "Listing ./site/assets/js"
+          ls -la ./site/assets/js || true
+          echo "Listing ./site/assets/img"
+          ls -la ./site/assets/img || true
 
       - name: FTP Deploy (site → public_html)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -26,5 +33,10 @@ jobs:
           password: ${{ secrets.FTP_PASS }}
           port: 21
           local-dir: ./site/
-          server-dir: /public_html/
-          dangerous-clean-slate: true
+          server-dir: /public_html
+          # Por ahora sin limpiar, para evitar deletes que fallen
+          # dangerous-clean-slate: true
+          log-level: verbose
+          exclude: |
+            **/.git*
+            **/.github/**
