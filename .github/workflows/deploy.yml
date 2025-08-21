@@ -12,12 +12,12 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: FTP Deploy (site → public_html)
-        uses: SamKirkland/FTP-Deploy-Action@v4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.FTP_HOST }}      # ej: c2751617.ferozo.com
-          username: ${{ secrets.FTP_USER }}    # ej: c2751617
-          password: ${{ secrets.FTP_PASS }}    # tu contraseña
+          server: ${{ secrets.FTP_HOST }}     # ej: c2751617.ferozo.com
+          username: ${{ secrets.FTP_USER }}   # ej: c2751617
+          password: ${{ secrets.FTP_PASS }}
           port: 21
           local-dir: ./site
-          server-dir: /public_html/            # o el docroot exacto si usás subdominio
+          server-dir: /public_html/
           dangerous-clean-slate: true
