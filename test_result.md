@@ -131,6 +131,9 @@ backend:
       - working: true
         agent: "main"
         comment: "GET /api/projects with category filtering implemented, returns proper JSON response, tested with curl"
+      - working: true
+        agent: "testing"
+        comment: "Comprehensive testing completed: ✅ GET /api/projects returns all 6 projects with proper structure, ✅ Category filtering works correctly (2 Cosmética, 1 Bebidas projects), ✅ Invalid categories return empty list, ✅ All required fields present (id, title, category, image, description), ✅ Proper JSON response format. Projects API fully functional."
 
   - task: "Services API"
     implemented: true
