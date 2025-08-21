@@ -1,4 +1,4 @@
-name: Deploy static /site to DonWeb
+name: Deploy static /site to DonWeb (FTP)
 
 on:
   push:
@@ -11,40 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Detectamos si hay secret SFTP_HOST definido
-      - id: detect
-        name: Detect deploy method
-        shell: bash
-        run: |
-          if [ -n "${{ secrets.SFTP_HOST }}" ]; then
-            echo "has_sftp=true" >> $GITHUB_OUTPUT
-          else
-            echo "has_sftp=false" >> $GITHUB_OUTPUT
-          fi
-
-      # --- SFTP (si hay SSH/SFTP) ---
-      - name: SFTP Deploy (site → public_html)
-        if: steps.detect.outputs.has_sftp == 'true'
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          server: ${{ secrets.SFTP_HOST }}
-          port: ${{ secrets.SFTP_PORT }}
-          username: ${{ secrets.SFTP_USER }}
-          password: ${{ secrets.SFTP_PASS }}
-          local_path: './site/*'
-          remote_path: ${{ secrets.SFTP_REMOTE_PATH }}
-          delete_remote_files: true
-          sftp_only: true
-
-      # --- FTP (fallback si NO hay SFTP) ---
       - name: FTP Deploy (site → public_html)
-        if: steps.detect.outputs.has_sftp == 'false'
         uses: SamKirkland/FTP-Deploy-Action@v4
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          port: ${{ secrets.FTP_PORT }}
+          server: ${{ secrets.FTP_HOST }}      # ej: c2751617.ferozo.com
+          username: ${{ secrets.FTP_USER }}    # ej: c2751617
+          password: ${{ secrets.FTP_PASS }}    # tu contraseña
+          port: 21
           local-dir: ./site
-          server-dir: ${{ secrets.FTP_REMOTE_PATH }}
+          server-dir: /public_html/            # o el docroot exacto si usás subdominio
           dangerous-clean-slate: true
